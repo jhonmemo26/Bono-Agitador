@@ -7,35 +7,35 @@
 #include "driver/ledc.h"
 
 // Segmentos
-#define SEG_A  25
-#define SEG_B  33
-#define SEG_C  19
-#define SEG_D  22
-#define SEG_E  21
-#define SEG_F  32
-#define SEG_G  23
+#define S_A  25
+#define S_B  33
+#define S_C  19
+#define S_D  22
+#define S_E  21
+#define S_F  32
+#define S_G  23
 
 // Dígitos
-#define DIG_1  26
-#define DIG_2  27
-#define DIG_3  14
+#define D_1  14
+#define D_2  26
+#define D_3  27
 
 // LEDs
-#define LED_VERDE  17
-#define LED_ROJO    4
+#define LED_VERDE  4
+#define LED_ROJO    17
 
 // Botones
-#define BTN_DER   5
-#define BTN_IZQ  16
+#define BTN_DER   16
+#define BTN_IZQ  5
 
-// Potenciómetro GP35 = ADC1 channel 7
-#define POT_CH   ADC1_CHANNEL_7
+// Potenciómetro GP34 = ADC1 channel 6
+#define POT_CH ADC1_CHANNEL_6
 
 // Puente H
-#define MOTOR_HS_IZQ  18
+#define MOTOR_HS_IZQ  12
 #define MOTOR_HS_DER  13
 #define MOTOR_LS_IZQ  15
-#define MOTOR_LS_DER  12
+#define MOTOR_LS_DER  18
 
 // PWM
 #define PWM_FREQ_HZ    2000
@@ -58,33 +58,33 @@ static int         duty_actual = 0;
 // ─── DISPLAY ───────────────────────────────────────────
 
 void clear_segments(void){
-    gpio_set_level(SEG_A,0); gpio_set_level(SEG_B,0); gpio_set_level(SEG_C,0);
-    gpio_set_level(SEG_D,0); gpio_set_level(SEG_E,0); gpio_set_level(SEG_F,0);
-    gpio_set_level(SEG_G,0);
+    gpio_set_level(S_A,0); gpio_set_level(S_B,0); gpio_set_level(S_C,0);
+    gpio_set_level(S_D,0); gpio_set_level(S_E,0); gpio_set_level(S_F,0);
+    gpio_set_level(S_G,0);
 }
 
 void display_digit(int n){
     clear_segments();
     switch(n){
-        case 0: gpio_set_level(SEG_A,1);gpio_set_level(SEG_B,1);gpio_set_level(SEG_C,1);
-                gpio_set_level(SEG_D,1);gpio_set_level(SEG_E,1);gpio_set_level(SEG_F,1); break;
-        case 1: gpio_set_level(SEG_B,1);gpio_set_level(SEG_C,1); break;
-        case 2: gpio_set_level(SEG_A,1);gpio_set_level(SEG_B,1);gpio_set_level(SEG_D,1);
-                gpio_set_level(SEG_E,1);gpio_set_level(SEG_G,1); break;
-        case 3: gpio_set_level(SEG_A,1);gpio_set_level(SEG_B,1);gpio_set_level(SEG_C,1);
-                gpio_set_level(SEG_D,1);gpio_set_level(SEG_G,1); break;
-        case 4: gpio_set_level(SEG_B,1);gpio_set_level(SEG_C,1);
-                gpio_set_level(SEG_F,1);gpio_set_level(SEG_G,1); break;
-        case 5: gpio_set_level(SEG_A,1);gpio_set_level(SEG_C,1);gpio_set_level(SEG_D,1);
-                gpio_set_level(SEG_F,1);gpio_set_level(SEG_G,1); break;
-        case 6: gpio_set_level(SEG_A,1);gpio_set_level(SEG_C,1);gpio_set_level(SEG_D,1);
-                gpio_set_level(SEG_E,1);gpio_set_level(SEG_F,1);gpio_set_level(SEG_G,1); break;
-        case 7: gpio_set_level(SEG_A,1);gpio_set_level(SEG_B,1);gpio_set_level(SEG_C,1); break;
-        case 8: gpio_set_level(SEG_A,1);gpio_set_level(SEG_B,1);gpio_set_level(SEG_C,1);
-                gpio_set_level(SEG_D,1);gpio_set_level(SEG_E,1);gpio_set_level(SEG_F,1);
-                gpio_set_level(SEG_G,1); break;
-        case 9: gpio_set_level(SEG_A,1);gpio_set_level(SEG_B,1);gpio_set_level(SEG_C,1);
-                gpio_set_level(SEG_D,1);gpio_set_level(SEG_F,1);gpio_set_level(SEG_G,1); break;
+        case 0: gpio_set_level(S_A,1);gpio_set_level(S_B,1);gpio_set_level(S_C,1);
+                gpio_set_level(S_D,1);gpio_set_level(S_E,1);gpio_set_level(S_F,1); break;
+        case 1: gpio_set_level(S_B,1);gpio_set_level(S_C,1); break;
+        case 2: gpio_set_level(S_A,1);gpio_set_level(S_B,1);gpio_set_level(S_D,1);
+                gpio_set_level(S_E,1);gpio_set_level(S_G,1); break;
+        case 3: gpio_set_level(S_A,1);gpio_set_level(S_B,1);gpio_set_level(S_C,1);
+                gpio_set_level(S_D,1);gpio_set_level(S_G,1); break;
+        case 4: gpio_set_level(S_B,1);gpio_set_level(S_C,1);
+                gpio_set_level(S_F,1);gpio_set_level(S_G,1); break;
+        case 5: gpio_set_level(S_A,1);gpio_set_level(S_C,1);gpio_set_level(S_D,1);
+                gpio_set_level(S_F,1);gpio_set_level(S_G,1); break;
+        case 6: gpio_set_level(S_A,1);gpio_set_level(S_C,1);gpio_set_level(S_D,1);
+                gpio_set_level(S_E,1);gpio_set_level(S_F,1);gpio_set_level(S_G,1); break;
+        case 7: gpio_set_level(S_A,1);gpio_set_level(S_B,1);gpio_set_level(S_C,1); break;
+        case 8: gpio_set_level(S_A,1);gpio_set_level(S_B,1);gpio_set_level(S_C,1);
+                gpio_set_level(S_D,1);gpio_set_level(S_E,1);gpio_set_level(S_F,1);
+                gpio_set_level(S_G,1); break;
+        case 9: gpio_set_level(S_A,1);gpio_set_level(S_B,1);gpio_set_level(S_C,1);
+                gpio_set_level(S_D,1);gpio_set_level(S_F,1);gpio_set_level(S_G,1); break;
     }
 }
 
@@ -97,17 +97,17 @@ void mostrar_numero(int numero){
     int unidades = numero % 10;
 
     clear_segments();
-    gpio_set_level(DIG_1,1); gpio_set_level(DIG_2,0); gpio_set_level(DIG_3,0);
+    gpio_set_level(D_1,1); gpio_set_level(D_2,0); gpio_set_level(D_3,0);
     display_digit(unidades);
     vTaskDelay(pdMS_TO_TICKS(5));
 
     clear_segments();
-    gpio_set_level(DIG_1,0); gpio_set_level(DIG_2,1); gpio_set_level(DIG_3,0);
+    gpio_set_level(D_1,0); gpio_set_level(D_2,1); gpio_set_level(D_3,0);
     display_digit(decenas);
     vTaskDelay(pdMS_TO_TICKS(5));
 
     clear_segments();
-    gpio_set_level(DIG_1,0); gpio_set_level(DIG_2,0); gpio_set_level(DIG_3,1);
+    gpio_set_level(D_1,0); gpio_set_level(D_2,0); gpio_set_level(D_3,1);
     display_digit(centenas);
     vTaskDelay(pdMS_TO_TICKS(5));
 }
@@ -141,7 +141,6 @@ void motor_brake_ramp(void){
 }
 
 void motor_apply(direccion_t dir, int duty){
-    // Si duty es muy bajo apagar completamente
     if(duty < 10){
         puente_h_off();
         return;
@@ -171,7 +170,7 @@ void motor_cambiar_dir(direccion_t nueva){
     dir_actual = nueva;
 }
 
-// ─── PWM INIT ──────────────────────────────────────────
+// PWM
 
 void pwm_init(void){
     ledc_timer_config_t timer = {
@@ -198,15 +197,15 @@ void pwm_init(void){
     ledc_channel_config(&ch1);
 }
 
-// ─── APP MAIN ──────────────────────────────────────────
+// MAIN
 
 void app_main(void){
 
     gpio_config_t out_cfg = {
         .pin_bit_mask =
-            (1ULL<<SEG_A)|(1ULL<<SEG_B)|(1ULL<<SEG_C)|
-            (1ULL<<SEG_D)|(1ULL<<SEG_E)|(1ULL<<SEG_F)|(1ULL<<SEG_G)|
-            (1ULL<<DIG_1)|(1ULL<<DIG_2)|(1ULL<<DIG_3)|
+            (1ULL<<S_A)|(1ULL<<S_B)|(1ULL<<S_C)|
+            (1ULL<<S_D)|(1ULL<<S_E)|(1ULL<<S_F)|(1ULL<<S_G)|
+            (1ULL<<D_1)|(1ULL<<D_2)|(1ULL<<D_3)|
             (1ULL<<LED_VERDE)|(1ULL<<LED_ROJO)|
             (1ULL<<MOTOR_HS_IZQ)|(1ULL<<MOTOR_HS_DER),
         .mode         = GPIO_MODE_OUTPUT,
@@ -232,7 +231,7 @@ void app_main(void){
     puente_h_off();
 
     clear_segments();
-    gpio_set_level(DIG_1,0); gpio_set_level(DIG_2,0); gpio_set_level(DIG_3,0);
+    gpio_set_level(D_1,0); gpio_set_level(D_2,0); gpio_set_level(D_3,0);
 
     dir_actual = DIR_DERECHA;
     gpio_set_level(LED_VERDE, 1);
